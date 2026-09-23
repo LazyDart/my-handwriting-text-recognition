@@ -5,12 +5,21 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "pre-commit>=4.6.2",
+    "pyrefly>=1.3.1",
     "pytest>=9.1.1",
     "transformers[torch]>=5.17.0",
 ]
 
-[project.scripts]
-my-handwriting-text-recognition = "my_handwriting_text_recognition:main"
+[tool.uv.build-backend]
+module-name = "src"
+module-root = ""
+
+[tool.pyrefly]
+project-includes = [
+    "**/*.py*",
+    "**/*.ipynb",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.12,<0.13.0"]

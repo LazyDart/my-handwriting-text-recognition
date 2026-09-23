@@ -2,9 +2,7 @@ import torch
 from peft import PeftModel
 from transformers import LightOnOcrForConditionalGeneration, LightOnOcrProcessor
 
-
 from src.config import get_config
-
 
 if __name__ == "__main__":
     config = get_config()
