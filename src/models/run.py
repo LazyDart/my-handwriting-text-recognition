@@ -30,19 +30,22 @@ if __name__ == "__main__":
     ]
 
     text = processor.apply_chat_template(
-        messages,
+        messages, # pyrefly: ignore
         add_generation_prompt=True,
         tokenize=False,
     )
 
     inputs = processor(
         text=[text],
-        images=[[image]],
-        return_tensors="pt",
-        padding=True,
-        truncation=True,
-        max_length=4096,
-        size={"longest_edge": 1540},
+        images=[image],
+        text_kwargs={
+            "padding": True,
+            "truncation": True,
+            "max_length": 4096,
+        },
+        images_kwargs={
+            "size": {"longest_edge": 1540}
+        },
     )
 
     if "pixel_values" in inputs:
@@ -50,7 +53,7 @@ if __name__ == "__main__":
     inputs = {key: value.to(device) for key, value in inputs.items()}
 
     with torch.inference_mode():
-        output_ids = model.generate(
+        output_ids = model.generate(  # pyrefly: ignore[bad-argument-type]
             **inputs,
             max_new_tokens=2048,
             do_sample=False,

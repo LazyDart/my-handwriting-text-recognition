@@ -1,3 +1,4 @@
+from typing import cast
 import torch
 from peft import PeftModel
 from transformers import LightOnOcrForConditionalGeneration, LightOnOcrProcessor
@@ -27,7 +28,11 @@ def get_model() -> LightOnOcrForConditionalGeneration:
         torch_dtype=dtype,
     ).to(device)
 
-    return PeftModel.from_pretrained(base_model, adapter_id).to(device)
+    return cast(
+        LightOnOcrForConditionalGeneration, 
+        PeftModel.from_pretrained(base_model, adapter_id).to(device)
+    )
+     
 
 if __name__ == "__main__":
     processor = get_processor()
