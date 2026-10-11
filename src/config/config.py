@@ -6,6 +6,7 @@ class Config(BaseModel):
     adapter_id: str = "IHPAN/LightOnOCR-2-1B-htr-polish-1"
     use_device: str = "cuda"
 
+
 config = Config()
 
 

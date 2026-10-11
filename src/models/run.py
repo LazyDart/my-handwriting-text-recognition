@@ -1,15 +1,16 @@
 import argparse
+
 import torch
 from PIL import Image
+
 from src.config import get_config
-from src.models.install import get_processor, get_model, get_dtype
+from src.models.install import get_dtype, get_model, get_processor
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("file_path", help="Path of the image file to process.")
     args = parser.parse_args()
 
-    
     config = get_config()
     processor = get_processor()
     model = get_model()
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     ]
 
     text = processor.apply_chat_template(
-        messages, # pyrefly: ignore
+        messages,  # pyrefly: ignore
         add_generation_prompt=True,
         tokenize=False,
     )
@@ -43,9 +44,7 @@ if __name__ == "__main__":
             "truncation": True,
             "max_length": 4096,
         },
-        images_kwargs={
-            "size": {"longest_edge": 1540}
-        },
+        images_kwargs={"size": {"longest_edge": 1540}},
     )
 
     if "pixel_values" in inputs:
@@ -59,6 +58,6 @@ if __name__ == "__main__":
             do_sample=False,
         )
 
-    generated_ids = output_ids[0, inputs["input_ids"].shape[1]:]
+    generated_ids = output_ids[0, inputs["input_ids"].shape[1] :]
     transcription = processor.decode(generated_ids, skip_special_tokens=True)
     print(transcription.strip())
